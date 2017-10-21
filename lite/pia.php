@@ -13,7 +13,7 @@ namespace threedi\pia\lite;
 use threedi\pia\lite\pia_cos;
 
 /**
- * Top Poster Of The Month service.
+ * phpBB Initial Avatars service.
  */
 class pia
 {
