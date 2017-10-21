@@ -201,6 +201,8 @@ class pia
 				$name = str_replace('@', '+', $row['username']);
 				$name = str_replace('{', ' ', $row['username']);
 				$name = str_replace('}', ' ', $row['username']);
+				$name = str_replace('(', ' ', $row['username']);
+				$name = str_replace(')', ' ', $row['username']);
 
 				$uiav_url = (string) $this->config['threedi_pia_uiav'];
 				$uiav = (string) $uiav_url . "{$name}{$size}{$background}{$color}{$length}{$font_size}{$rounded}{$uppercase}";
