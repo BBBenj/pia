@@ -233,7 +233,7 @@ class pia
 	}
 
 	/**
-	 * Delete PIA avatar in case (UCP)
+	 * Delete PIA avatar in case (UCP choice)
 	 *
 	 * @return void
 	 */
@@ -275,7 +275,7 @@ class pia
 	}
 
 	/**
-	 * Restore all user avatars
+	 * Restore all user avatars from the PIA table if any
 	 *
 	 * @return void
 	 */
@@ -421,7 +421,7 @@ class pia
 	}
 
 	/**
-	 * Returns the stored configs manageables from the ACP
+	 * Executes the main thang. Only users effectively avatrs less are involved
 	 *
 	 * @return array
 	 */
