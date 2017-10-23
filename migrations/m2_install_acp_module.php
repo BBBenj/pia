@@ -12,14 +12,9 @@ namespace threedi\pia\migrations;
 
 class m2_install_acp_module extends \phpbb\db\migration\migration
 {
-	public function effectively_installed()
-	{
-
-	}
-
 	static public function depends_on()
 	{
-		return ['\phpbb\db\migration\data\v31x\v3111'];
+		return ['\phpbb\db\migration\data\v32x\v321',];
 	}
 
 	public function update_data()

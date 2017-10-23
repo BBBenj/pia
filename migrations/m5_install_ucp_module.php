@@ -27,7 +27,7 @@ class m5_install_ucp_module extends \phpbb\db\migration\migration
 
 	static public function depends_on()
 	{
-		return ['\phpbb\db\migration\data\v31x\v3111'];
+		return ['\phpbb\db\migration\data\v32x\v321',];
 	}
 
 	public function update_data()

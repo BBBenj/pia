@@ -1,0 +1,2 @@
+parameters:
+    threedi.pia.tables.pia_table: '%core.table_prefix%pia'

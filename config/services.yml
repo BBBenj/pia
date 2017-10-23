@@ -1,3 +1,6 @@
+imports:
+    - { resource: parameters.yml }
+
 services:
     threedi.pia.listener:
         class: threedi\pia\event\listener
@@ -7,6 +10,7 @@ services:
             - '@config'
             - '@user'
             - '@threedi.pia.pia'
+            - '@dbal.tools'
 
         tags:
             - { name: event.listener }
@@ -23,3 +27,6 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
             - '@template'
+            - '%threedi.pia.tables.pia_table%'
+            - '@dbal.tools'
+

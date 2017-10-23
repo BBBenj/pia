@@ -13,12 +13,12 @@ namespace threedi\pia\migrations;
 /*
  * Adds the needed indexes to the USERS_TABLE
  */
-class m4_install_user_schema extends \phpbb\db\migration\migration
+class m4_2_install_user_schema extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()
 	{
 		/* If doesn't exists go ahead */
-		return $this->db_tools->sql_column_exists($this->table_prefix . 'users', 'pia_avatar_ucp');
+		return $this->db_tools->sql_column_exists($this->table_prefix . 'users', 'pia_user_avatar');
 	}
 
 	static public function depends_on()
@@ -31,7 +31,10 @@ class m4_install_user_schema extends \phpbb\db\migration\migration
 		return [
 			'add_columns'	=> [
 				$this->table_prefix . 'users'	=>	[
-					'pia_avatar_ucp'		=> ['BOOL', 1, 'after' => 'user_avatar_height'],
+					'pia_user_avatar'		=> ['VCHAR:255', '', 'after' => 'pia_avatar_ucp'],
+					'pia_avatar_type'		=> ['VCHAR:255', '', 'after' => 'pia_user_avatar'],
+					'pia_avatar_width'		=> ['USINT', 0, 'after' => 'pia_avatar_type'],
+					'pia_avatar_height'		=> ['USINT', 0, 'after' => 'pia_avatar_width'],
 				],
 			],
 		];
@@ -39,12 +42,17 @@ class m4_install_user_schema extends \phpbb\db\migration\migration
 
 	public function revert_schema()
 	{
+		/*
 		return [
 			'drop_columns'	=>[
 				$this->table_prefix . 'users'	=>	[
-					'pia_avatar_ucp',
+					'pia_user_avatar',
+					'pia_avatar_type',
+					'pia_avatar_width',
+					'pia_avatar_height',
 				],
 			],
 		];
+		*/
 	}
 }
