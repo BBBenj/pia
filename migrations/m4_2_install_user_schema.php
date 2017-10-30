@@ -39,20 +39,4 @@ class m4_2_install_user_schema extends \phpbb\db\migration\migration
 			],
 		];
 	}
-
-	public function revert_schema()
-	{
-		/*
-		return [
-			'drop_columns'	=>[
-				$this->table_prefix . 'users'	=>	[
-					'pia_user_avatar',
-					'pia_avatar_type',
-					'pia_avatar_width',
-					'pia_avatar_height',
-				],
-			],
-		];
-		*/
-	}
 }

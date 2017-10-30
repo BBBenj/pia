@@ -442,6 +442,9 @@ class pia
 		GROUP BY user_id';
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
 
+//WHERE user_type <> ' . USER_IGNORE . "
+//				AND user_email <> ''";
+
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$i++;

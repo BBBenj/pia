@@ -39,7 +39,7 @@ $lang = array_merge($lang, array(
 	'PIA_IN_LENGHT_VAL_EXPLAIN'			=>	'How many chars for the generated initials.',
 
 	// Font size
-	'PIA_FONT_SIZE_VAL'					=>	'Font size - Fix the value again if submit',
+	'PIA_FONT_SIZE_VAL'					=>	'Font size',
 	'PIA_FONT_SIZE_VAL_EXPLAIN'			=>	'In percentage, between 0.1 and 1.',
 
 	// Rounded

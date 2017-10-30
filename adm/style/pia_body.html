@@ -10,12 +10,12 @@
 <fieldset class="pia-acp-outer">
 	<fieldset class="pia-acp-middle">
 		<fieldset class="pia-acp-inner">
-			<div class="" style="text-align:center;margin-bottom:.5em;">
+			<div style="text-align:center;margin-bottom:.5em;">
 				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="margin-top:.5em;">
 				<input type="hidden" name="cmd" value="_s-xclick">
 				<input type="hidden" name="hosted_button_id" value="ZLN6KTV2WQSRN">
-				<input type="image" src="https://www.paypal.com/en_GB/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="">
-				<img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+				<input type="image" src="https://www.paypal.com/en_GB/i/btn/btn_donate_LG.gif" name="submit" >
+				<img src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
 				</form>
 			</div>
 		</fieldset>
@@ -43,8 +43,8 @@
 						<label for="threedi_pia_default_avatar">{{ lang('PIA_DEFAULT_AVATAR') }}{{ lang('COLON') }}</label>
 					</dt>
 					<dd>
-						<input type="radio" class="radio" name="threedi_pia_default_avatar" value="1"{% if PIA_DEFAULT_AVATAR %} checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
-						<input type="radio" class="radio" name="threedi_pia_default_avatar" value="0"{% if not PIA_DEFAULT_AVATAR %} checked="checked"{% endif %} /> {{ lang('NO') }}
+						<input type="radio" class="radio" name="threedi_pia_default_avatar" value="1" {% if PIA_DEFAULT_AVATAR %}id="threedi_pia_default_avatar" checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+						<input type="radio" class="radio" name="threedi_pia_default_avatar" value="0" {% if not PIA_DEFAULT_AVATAR %}id="threedi_pia_default_avatar" checked="checked"{% endif %} /> {{ lang('NO') }}
 					</dd>
 				</dl>
 			</fieldset>
@@ -66,6 +66,7 @@
 						<input type="color" name="threedi_pia_background_val_hex" id="threedi_pia_background_val_hex" class="input" value="{{ PIA_BCGK_COL_VAL }}" placeholder="{{ PIA_BCGK_COL_VAL }}" title="{{ lang('PIA_COLORPICKER_EXPLAIN') }}" onchange="document.getElementById('threedi_pia_background_val').value = this.value;"/>&nbsp;
 						
 						{{ lang('PIA_COL_VAL_STORED') }}{{ lang('COLON') }}&nbsp;
+
 						<input type="text" class="input" value="{{ PIA_BCGK_COL_VAL }}" size="7" title="{{ lang('PIA_COLORPICKER_STORED') }}"/>
 
 						<input type="color" class="input" value="{{ PIA_BCGK_COL_VAL }}" placeholder="{{ PIA_BCGK_COL_VAL }}" title="{{ lang('PIA_BCGK_COL_VAL_STORED') }}" disabled/>
@@ -82,6 +83,7 @@
 						<input type="color" name="threedi_pia_color_val_hex" id="threedi_pia_color_val_hex" class="input" value="{{ PIA_TXT_COL_VAL }}" placeholder="{{ PIA_TXT_COL_VAL }}" title="{{ lang('PIA_COLORPICKER_EXPLAIN') }}" onchange="document.getElementById('threedi_pia_color_val').value = this.value;"/>&nbsp;
 						
 						{{ lang('PIA_COL_VAL_STORED') }}{{ lang('COLON') }}&nbsp;
+
 						<input type="text" class="input" value="{{ PIA_TXT_COL_VAL }}" size="7" title="{{ lang('PIA_COLORPICKER_STORED') }}"/>
 
 						<input type="color" class="input" value="{{ PIA_TXT_COL_VAL }}" placeholder="{{ PIA_TXT_COL_VAL }}" title="{{ lang('PIA_TXT_COL_VAL') }}" disabled/>
@@ -113,7 +115,7 @@
 						<label for="threedi_pia_font_val">{{ lang('PIA_FONT_SIZE_VAL') }}{{ lang('COLON') }}</label><br>{{ lang('PIA_FONT_SIZE_VAL_EXPLAIN') }}
 					</dt>
 					<dd>
-						<input type="number" step="0.01" value="1.00" min="0.1" max="1" name="threedi_pia_font_val" id="threedi_pia_font_val" size="4" value="{{ PIA_FONT_SIZE_VAL }}" />&nbsp;{{ lang('PIA_COL_VAL_STORED') }}&nbsp;{{ PIA_FONT_SIZE_VAL }}
+						<input type="number" step="0.01" min="0.1" max="1" name="threedi_pia_font_val" id="threedi_pia_font_val" size="4" value="{{ PIA_FONT_SIZE_VAL }}" />
 					</dd>
 				</dl>
 
@@ -122,8 +124,8 @@
 						<label for="threedi_pia_rou_val">{{ lang('PIA_IMG_ROUNDED_VAL') }}{{ lang('COLON') }}</label><br>{{ lang('PIA_IMG_ROUNDED_VAL_EXPLAIN') }}
 					</dt>
 					<dd>
-						<input type="radio" class="radio" name="threedi_pia_rou_val" value="1"{% if PIA_IMG_ROUNDED_VAL %} checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
-						<input type="radio" class="radio" name="threedi_pia_rou_val" value="0"{% if not PIA_IMG_ROUNDED_VAL %} checked="checked"{% endif %} /> {{ lang('NO') }}
+						<input type="radio" class="radio" name="threedi_pia_rou_val" value="1" {% if PIA_IMG_ROUNDED_VAL %}id="threedi_pia_rou_val" checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+						<input type="radio" class="radio" name="threedi_pia_rou_val" value="0" {% if not PIA_IMG_ROUNDED_VAL %}id="threedi_pia_rou_val" checked="checked"{% endif %} /> {{ lang('NO') }}
 					</dd>
 				</dl>
 
@@ -132,8 +134,8 @@
 						<label for="threedi_pia_upp_cas_val">{{ lang('PIA_UPPERCASE_VAL') }}{{ lang('COLON') }}</label><br>{{ lang('PIA_UPPERCASE_VAL_EXPLAIN') }}
 					</dt>
 					<dd>
-						<input type="radio" class="radio" name="threedi_pia_upp_cas_val" value="1"{% if PIA_UPPERCASE_VAL %} checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
-						<input type="radio" class="radio" name="threedi_pia_upp_cas_val" value="0"{% if not PIA_UPPERCASE_VAL %} checked="checked"{% endif %} /> {{ lang('NO') }}
+						<input type="radio" class="radio" name="threedi_pia_upp_cas_val" value="1" {% if PIA_UPPERCASE_VAL %}id="threedi_pia_upp_cas_val" checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+						<input type="radio" class="radio" name="threedi_pia_upp_cas_val" value="0" {% if not PIA_UPPERCASE_VAL %}id="threedi_pia_upp_cas_val"  checked="checked"{% endif %} /> {{ lang('NO') }}
 					</dd>
 				</dl>
 			</fieldset>

@@ -57,11 +57,11 @@ class pia_module
 				$config->set('threedi_pia_background_val', trim($request->variable('threedi_pia_background_val', $config['threedi_pia_background_val'])));
 				$config->set('threedi_pia_color_val', trim($request->variable('threedi_pia_color_val', $config['threedi_pia_color_val'])));
 				$config->set('threedi_pia_length_val', $request->variable('threedi_pia_length_val', (int) $config['threedi_pia_length_val']));
-				$config->set('threedi_pia_font_val', $request->variable('threedi_pia_font_val', $config['threedi_pia_font_val']));
+				$config->set('threedi_pia_font_val', $request->variable('threedi_pia_font_val', (double) $config['threedi_pia_font_val']));
 				$config->set('threedi_pia_rou_val', $request->variable('threedi_pia_rou_val', (bool) $config['threedi_pia_rou_val']));
 				$config->set('threedi_pia_upp_cas_val', $request->variable('threedi_pia_upp_cas_val', (bool) $config['threedi_pia_upp_cas_val']));
 
-				/* Resets avatars for the changes to make effect - are cached server-side*/
+				/* Resets avatars for the changes to make effect - are cached server-side */
 				if ( $pia_lite->is_authed() && $config['threedi_pia_default_avatar'] && $config['allow_avatar'] && $config['allow_avatar_remote'])
 				{
 					$pia_lite->pia_main();
@@ -83,7 +83,7 @@ class pia_module
 			'PIA_BCGK_COL_VAL'		=> $config['threedi_pia_background_val'],
 			'PIA_TXT_COL_VAL'		=> $config['threedi_pia_color_val'],
 			'PIA_IN_LENGHT_VAL'		=> (int) $config['threedi_pia_length_val'],
-			'PIA_FONT_SIZE_VAL'		=> (string) $config['threedi_pia_font_val'],
+			'PIA_FONT_SIZE_VAL'		=> (double) $config['threedi_pia_font_val'],
 			'PIA_IMG_ROUNDED_VAL'	=> $config['threedi_pia_rou_val'] ? true : false,
 			'PIA_UPPERCASE_VAL'		=> $config['threedi_pia_upp_cas_val'] ? true : false,
 		]);
