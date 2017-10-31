@@ -34,9 +34,9 @@ $lang = array_merge($lang, array(
 	'PIA_BCGK_COL_VAL'					=>	'Hex color for the image background',
 	'PIA_TXT_COL_VAL'					=>	'Hex color for the font',
 
-	// Initials lenght
-	'PIA_IN_LENGHT_VAL'					=>	'Lenght',
-	'PIA_IN_LENGHT_VAL_EXPLAIN'			=>	'How many chars for the generated initials.',
+	// Initials length
+	'PIA_IN_LENGTH_VAL'					=>	'Length',
+	'PIA_IN_LENGTH_VAL_EXPLAIN'			=>	'How many chars for the generated initials.',
 
 	// Font size
 	'PIA_FONT_SIZE_VAL'					=>	'Font size',

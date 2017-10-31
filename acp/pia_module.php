@@ -76,13 +76,14 @@ class pia_module
 		$template->assign_vars([
 			'S_ERRORS'				=> ($errors) ? true : false,
 			'ERRORS_MSG'			=> ($errors) ? implode('<br /><br />', $errors) : '',
+
 			'U_ACTION'				=> $this->u_action,
 			'PIA_DEFAULT_AVATAR'	=> (int) $config['threedi_pia_default_avatar'], // 0 = never, 1 = default, 2 = always
 			/* Configs */
 			'PIA_IMG_SIZE_VAL'		=> (int) $config['threedi_pia_size_val'],
 			'PIA_BCGK_COL_VAL'		=> $config['threedi_pia_background_val'],
 			'PIA_TXT_COL_VAL'		=> $config['threedi_pia_color_val'],
-			'PIA_IN_LENGHT_VAL'		=> (int) $config['threedi_pia_length_val'],
+			'PIA_IN_LENGTH_VAL'		=> (int) $config['threedi_pia_length_val'],
 			'PIA_FONT_SIZE_VAL'		=> (double) $config['threedi_pia_font_val'],
 			'PIA_IMG_ROUNDED_VAL'	=> $config['threedi_pia_rou_val'] ? true : false,
 			'PIA_UPPERCASE_VAL'		=> $config['threedi_pia_upp_cas_val'] ? true : false,
