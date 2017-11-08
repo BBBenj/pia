@@ -93,18 +93,12 @@ class listener implements EventSubscriberInterface
 	*/
 	public function pia_store_avatars_on_setup()
 	{
-// --- Emergency tools ---
-		/*
-		$this->pia_lite->delete_pia_user_avatars();
-		return;
-		*/
-
+// --- Emergency tool ---
 		/*
 		$this->pia_lite->restore_user_avatars();
 		return;
 		*/
-// --- Emergency tools ---
-
+// --- Emergency tool ---
 		/**
 		 * IF the user has PIA's permissions set...
 		 * IF the ACP Default Avatar bit is ON...
