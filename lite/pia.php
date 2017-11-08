@@ -43,7 +43,6 @@ class pia
 		$this->config			=	$config;
 		$this->db				=	$db;
 		$this->user				=	$user;
-
 		$this->pia_table		=	$pia_table;
 	}
 
@@ -198,13 +197,13 @@ class pia
 
 		//Hex color for the image background, without the hash (#). Default: ddd (NULL)
 		$background_equal = pia_cos::PIA_BCGK_COL;
-		$background_val = $this->config['threedi_pia_background_val']; /* random*/
+		$background_val = $this->config['threedi_pia_background_val']; /* @ToDo random */
 		$background_val = str_replace('#', '', $background_val);
 		$background = ($background_equal . $background_val);
 
 		//Hex color for the font, without the hash (#). Default: 222 (NULL)
 		$color_equal = pia_cos::PIA_TXT_COL;
-		$color_val = $this->config['threedi_pia_color_val']; /* random*/
+		$color_val = $this->config['threedi_pia_color_val']; /* @ToDo random */
 		$color_val = str_replace('#', '', $color_val);
 		$color = ($color_equal . $color_val);
 
@@ -215,7 +214,7 @@ class pia
 
 		//Font size in percentage of size. Between 0.1 and 1. Default: 0.5 (NULL)
 		$font_equal = pia_cos::PIA_FONT_SIZE;
-		$font_val = $this->config['threedi_pia_font_val']; // phpbb_to_numeric($input)
+		$font_val = $this->config['threedi_pia_font_val']; // use case: phpbb_to_numeric($input) ?
 		$font_size = ($font_equal . $font_val);
 
 		//Boolean specifying if the returned image should be a circle. Default: false (NULL)
@@ -265,11 +264,11 @@ class pia
 		$name = str_replace('(', '', $name);
 		$name = str_replace(')', '', $name);
 
-		return $name;
+		return $name; /* @ToDo improve */
 	}
 
 	/**
-	 * Executes the main thang. Only users effectively avatrs less are involved
+	 * Executes the main thang. Only users effectively avatarless are involved
 	 *
 	 * @return array
 	 */
