@@ -21,7 +21,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'PIA_DEFAULT_AVATAR_FIELD'			=>	'Default avatar',
 	'PIA_DEFAULT_AVATAR'				=>	'Use Initial avatars',
-	'PIA_DEFAULT_AVATAR_EXPLAIN'		=>	'Store in the USERS TABLE the link to the PIA Avatar where the user is avatarless. Users can chose to avoid it via UCP <em>(default is allowed for all)</em>. Selecting NO in the future will only affects new users. PIA Avatars can be removed then if the users selects a custom avatar.',
+	'PIA_DEFAULT_AVATAR_EXPLAIN'		=>	'Using <strong>YES</strong> the PIA avatars are stored in the USERS TABLE where the user is avatarless.<br>Users can select to avoid it via UCP <em>(default is allowed for all)</em>.<br>Using <strong>NO</strong> the PIA avatars will be removed leaving those users again avatarless.<br>Ofcourse if <strong>NO</strong> has been selected the following options will be ignored leaving the extension in a dormant status.',
 
 	// Img size
 	'PIA_IMG_SIZE'						=>	'Avatar image size',

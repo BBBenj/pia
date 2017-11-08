@@ -62,10 +62,16 @@ class pia_module
 				$config->set('threedi_pia_upp_cas_val', $request->variable('threedi_pia_upp_cas_val', (bool) $config['threedi_pia_upp_cas_val']));
 
 				/* Resets avatars for the changes to make effect - Are cached server-side */
-				if ((bool) $config['threedi_pia_default_avatar'])
+				if ($config['threedi_pia_default_avatar'])
 				{
 					$pia_lite->pia_main();
 					$pia_lite->pia_acp_main_reset();
+				}
+
+				/* Delete PIA avatars if PIA is inactive */
+				if (!$config['threedi_pia_default_avatar'])
+				{
+					$pia_lite->delete_pia_user_avatars();
 				}
 
 				/* Log the action and return */

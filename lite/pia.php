@@ -65,9 +65,11 @@ class pia
 	{
 		$limit = 500;
 
-		$sql = 'SELECT user_id, user_type
+		$sql = 'SELECT user_id, user_type, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, pia_avatar_ucp
 		FROM ' . USERS_TABLE . '
 		WHERE user_id <> ' . ANONYMOUS . '
+			AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
+			AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char()) . '
 			AND (user_type <> ' . USER_IGNORE . ')';
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
 
@@ -85,9 +87,7 @@ class pia
 
 			$sql = 'UPDATE ' . USERS_TABLE . '
 				SET ' . $this->db->sql_build_array('UPDATE', $delete_backup_row) . '
-				WHERE user_id = ' . (int) $row['user_id'] . '
-					AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
-					AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char());
+				WHERE user_id = ' . (int) $row['user_id'];
 			$this->db->sql_query($sql);
 		}
 		$this->db->sql_freeresult($result);
@@ -110,7 +110,7 @@ class pia
 		$group = 500;
 		$i = 0;
 
-		$sql = 'SELECT user_id, user_avatar, user_avatar_type, pia_avatar_ucp
+		$sql = 'SELECT user_id, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, pia_avatar_ucp
 		FROM ' . USERS_TABLE . '
 		WHERE pia_avatar_ucp = 0
 			AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
