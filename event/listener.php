@@ -20,12 +20,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class listener implements EventSubscriberInterface
 {
-	/** @var \phpbb\auth\auth */
-	protected $auth;
-
-	/* @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -38,10 +32,8 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Constructor
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\user $user, \threedi\pia\lite\pia $pia_lite)
+	public function __construct(\phpbb\config\config $config, \phpbb\user $user, \threedi\pia\lite\pia $pia_lite)
 	{
-		$this->auth			=	$auth;
-		$this->db			=	$db;
 		$this->config		=	$config;
 		$this->user			=	$user;
 		$this->pia_lite		=	$pia_lite; // helper class

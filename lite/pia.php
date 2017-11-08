@@ -20,9 +20,6 @@ class pia
 	/* @var \phpbb\auth\auth */
 	protected $auth;
 
-	/* @var \phpbb\cache\service */
-	protected $cache;
-
 	/* @var \phpbb\config\config */
 	protected $config;
 
@@ -32,18 +29,6 @@ class pia
 	/* @var \phpbb\user */
 	protected $user;
 
-	/* @var \phpbb\controller\helper */
-	protected $path_helper;
-
-	/* @var string phpBB root path */
-	protected $root_path;
-
-	/* @var string phpEx */
-	protected $php_ext;
-
-	/* @var \phpbb\template\template */
-	protected $template;
-
 	/**
 	 * @var string - The database table the backup of the avatars of the users are stored in
 	 */
@@ -52,17 +37,12 @@ class pia
 	/**
 	 * Constructor
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\path_helper $path_helper, $root_path, $phpExt, \phpbb\template\template $template, $pia_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $pia_table)
 	{
 		$this->auth				=	$auth;
-		$this->cache			=	$cache;
 		$this->config			=	$config;
 		$this->db				=	$db;
 		$this->user				=	$user;
-		$this->path_helper		=	$path_helper;
-		$this->root_path		=	$root_path;
-		$this->php_ext			=	$phpExt;
-		$this->template			=	$template;
 
 		$this->pia_table		=	$pia_table;
 	}

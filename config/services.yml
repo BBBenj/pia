@@ -5,8 +5,6 @@ services:
     threedi.pia.listener:
         class: threedi\pia\event\listener
         arguments:
-            - '@auth'
-            - '@dbal.conn'
             - '@config'
             - '@user'
             - '@threedi.pia.pia'
@@ -18,12 +16,7 @@ services:
         class: threedi\pia\lite\pia
         arguments:
             - '@auth'
-            - '@cache'
             - '@config'
             - '@dbal.conn'
             - '@user'
-            - '@path_helper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '@template'
             - '%threedi.pia.tables.pia_table%'
