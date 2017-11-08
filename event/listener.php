@@ -115,8 +115,15 @@ class listener implements EventSubscriberInterface
 		*/
 		if ( $this->pia_lite->is_authed() && $this->config['threedi_pia_default_avatar'] && $this->config['allow_avatar'] && $this->config['allow_avatar_remote'])
 		{
-			$this->pia_lite->pia_main();
-			$this->pia_lite->delete_pia_ucp_avatars();
+			if ( (empty($this->user->data['avatar'])) && $this->user->data['pia_avatar_ucp'] == 1 && $this->user->data['user_avatar_type'] == '' )
+			{
+				$this->pia_lite->pia_main();
+			}
+
+			if ($this->user->data['user_avatar_type'] === 'avatar.driver.remote' && ($this->user->data['pia_avatar_ucp'] == 0))
+			{
+				$this->pia_lite->delete_pia_ucp_avatars();
+			}
 		}
 	}
 }
