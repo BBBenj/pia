@@ -10,7 +10,6 @@ services:
             - '@config'
             - '@user'
             - '@threedi.pia.pia'
-            - '@dbal.tools'
 
         tags:
             - { name: event.listener }
@@ -28,5 +27,3 @@ services:
             - '%core.php_ext%'
             - '@template'
             - '%threedi.pia.tables.pia_table%'
-            - '@dbal.tools'
-

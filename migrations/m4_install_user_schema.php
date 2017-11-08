@@ -11,14 +11,14 @@
 namespace threedi\pia\migrations;
 
 /*
- * Adds the needed indexes to the USERS_TABLE
+ * Creates the PIA's table and backups the User avatars's lot
  */
 class m4_install_user_schema extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()
 	{
-		/* If doesn't exists go ahead */
-		return $this->db_tools->sql_column_exists($this->table_prefix . 'users', 'pia_avatar_ucp');
+		/* If does exists go ahead */
+		return !$this->db_tools->sql_table_exists($this->table_prefix . 'users');
 	}
 
 	static public function depends_on()
@@ -31,7 +31,7 @@ class m4_install_user_schema extends \phpbb\db\migration\migration
 		return [
 			'add_columns'	=> [
 				$this->table_prefix . 'users'	=>	[
-					'pia_avatar_ucp'		=> ['BOOL', 1, 'after' => 'user_avatar_height'],
+					'pia_avatar_ucp'	=> ['BOOL', 1, 'after' => 'user_avatar_height']
 				],
 			],
 		];
@@ -42,9 +42,9 @@ class m4_install_user_schema extends \phpbb\db\migration\migration
 		return [
 			'drop_columns'	=>[
 				$this->table_prefix . 'users'	=>	[
-					'pia_avatar_ucp',
+					'pia_avatar_ucp'
 				],
-			],
+			]
 		];
 	}
 }

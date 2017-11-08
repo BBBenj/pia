@@ -12,6 +12,12 @@ namespace threedi\pia\migrations;
 
 class m3_install_configs extends \phpbb\db\migration\migration
 {
+	public function effectively_installed()
+	{
+		/* If does NOT exists go ahead */
+		return isset($this->config['threedi_pia_default_avatar']);
+	}
+
 	static public function depends_on()
 	{
 		return ['\phpbb\db\migration\data\v32x\v321',];
@@ -20,7 +26,6 @@ class m3_install_configs extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return [
-			/* First set a milestone */
 			['config.add', ['threedi_pia_default_avatar', 0]],
 			['config.add', ['threedi_pia_uiav', 'https://ui-avatars.com/api/?name=']],
 			['config.add', ['threedi_pia_size_val', 90]],

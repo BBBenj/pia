@@ -35,28 +35,16 @@ class listener implements EventSubscriberInterface
 	/* @var \threedi\pia\lite\pia */
 	protected $pia_lite;
 
-	/** @var \phpbb\db\tools\tools_interface */
-	protected $db_tools;
-
 	/**
-		* Constructor
-		*
-		* @param \phpbb\auth\auth					$auth			Authentication object
-		* @param \phpbb\db\driver\driver_interface	$db
-		* @param \phpbb\config\config				$config			Config Object
-		* @param \phpbb\user						$user			User object
-		* @access public
-	*/
-
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\user $user, \threedi\pia\lite\pia $pia_lite, \phpbb\db\tools\tools_interface $db_tools)
+	 * Constructor
+	 */
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\user $user, \threedi\pia\lite\pia $pia_lite)
 	{
 		$this->auth			=	$auth;
 		$this->db			=	$db;
 		$this->config		=	$config;
 		$this->user			=	$user;
 		$this->pia_lite		=	$pia_lite; // helper class
-		$this->db_tools		=	$db_tools;
-
 	}
 
 	static public function getSubscribedEvents()
@@ -111,21 +99,16 @@ class listener implements EventSubscriberInterface
 	/**
 	* @event core.user_setup_after
 	*/
-	public function pia_store_avatars_on_setup($event)
+	public function pia_store_avatars_on_setup()
 	{
 // --- Emergency tools ---
 		/*
-		$this->pia_lite->delete_phpbb_user_avatars();
+		$this->pia_lite->delete_pia_user_avatars();
 		return;
 		*/
 
 		/*
 		$this->pia_lite->restore_user_avatars();
-		return;
-		*/
-
-		/*
-		$this->pia_lite->delete_backup_user_avatar();
 		return;
 		*/
 // --- Emergency tools ---
@@ -135,17 +118,20 @@ class listener implements EventSubscriberInterface
 		 * IF the ACP Default Avatar bit is ON...
 		 * IF the Board allows avatars...
 		 * IF the Board allows remote avatars...
-		 * ...
+		 * etc.. ...
 		 * ... let's go ahead.
 		*/
 		if ( $this->pia_lite->is_authed() && $this->config['threedi_pia_default_avatar'] && $this->config['allow_avatar'] && $this->config['allow_avatar_remote'])
 		{
-			/* Backup only once */
-			$this->pia_lite->is_first_time_here();
+			if ( (empty($this->user->data['avatar'])) && $this->user->data['pia_avatar_ucp'] == 1 && $this->user->data['user_avatar_type'] == '' )
+			{
+				$this->pia_lite->pia_main();
+			}
 
-			$this->pia_lite->pia_main();
-
-			$this->pia_lite->delete_pia_ucp_avatars();
+			if ($this->user->data['user_avatar_type'] === 'avatar.driver.remote' && ($this->user->data['pia_avatar_ucp'] == 0))
+			{
+				$this->pia_lite->delete_pia_ucp_avatars();
+			}
 		}
 	}
 }

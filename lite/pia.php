@@ -49,13 +49,10 @@ class pia
 	 */
 	protected $pia_table;
 
-	/** @var \phpbb\db\tools\tools_interface */
-	protected $db_tools;
-
 	/**
 	 * Constructor
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\path_helper $path_helper, $root_path, $phpExt, \phpbb\template\template $template, $pia_table, \phpbb\db\tools\tools_interface $db_tools)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\path_helper $path_helper, $root_path, $phpExt, \phpbb\template\template $template, $pia_table)
 	{
 		$this->auth				=	$auth;
 		$this->cache			=	$cache;
@@ -68,8 +65,6 @@ class pia
 		$this->template			=	$template;
 
 		$this->pia_table		=	$pia_table;
-
-		$this->db_tools			=	$db_tools;
 	}
 
 	/**
@@ -82,127 +77,19 @@ class pia
 		return (bool) ( $this->auth->acl_get('a_pia_admin') || $this->auth->acl_get('u_allow_pia_view') );
 	}
 
-
 	/**
-	 * Check-in before to backup all user avatars
+	 * Delete all PIA user avatars
 	 *
 	 * @return void
 	 */
-	public function is_first_time_here()
-	{
-		$sql = 'SELECT user_type, pia_user_avatar
-		FROM ' . USERS_TABLE . '
-		WHERE (user_type = ' . USER_FOUNDER . ')';
-		$result = $this->db->sql_query_limit($sql, 1);
-		$row = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-
-		if (empty($row['pia_user_avatar']))
-		{
-			$this->backup_user_avatar();
-		}
-	}
-
-	/**
-	 * Backup all user avatars
-	 *
-	 * @return void
-	 */
-	public function backup_user_avatar($start = 0)
-	{
-		$limit = 500;
-
-		$sql = 'SELECT user_id, user_type, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height
-		FROM ' . USERS_TABLE . '
-		WHERE user_id <> ' . ANONYMOUS . '
-			AND (user_type <> ' . USER_IGNORE . ')
-		GROUP BY user_id';
-		$result = $this->db->sql_query_limit($sql, $limit, $start);
-
-		$i = 0;
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$i++;
-
-			$backup_row = [
-				'pia_user_avatar'	=> $row['user_avatar'],
-				'pia_avatar_type'	=> $row['user_avatar_type'],
-				'pia_avatar_width'	=> (int) $row['user_avatar_width'],
-				'pia_avatar_height'	=> (int) $row['user_avatar_height'],
-			];
-
-			$sql = 'UPDATE ' . USERS_TABLE . '
-				SET ' . $this->db->sql_build_array('UPDATE', $backup_row) . '
-				WHERE user_id = ' . (int) $row['user_id'];
-			$this->db->sql_query($sql);
-		}
-		$this->db->sql_freeresult($result);
-
-		if ($i < $limit)
-		{
-			return;
-		}
-
-		return $start + $limit;
-	}
-
-	/**
-	 * Delete backup all user avatars
-	 *
-	 * @return void
-	 */
-	public function delete_backup_user_avatar($start = 0)
-	{
-		$limit = 500;
-
-		$sql = 'SELECT user_id, user_type, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height
-		FROM ' . USERS_TABLE . '
-		WHERE user_id <> ' . ANONYMOUS . '
-			AND (user_type <> ' . USER_IGNORE . ')
-		GROUP BY user_id';
-		$result = $this->db->sql_query_limit($sql, $limit, $start);
-
-		$i = 0;
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$i++;
-
-			$delete_backup_row = [
-				'pia_user_avatar'	=> '',
-				'pia_avatar_type'	=> '',
-				'pia_avatar_width'	=> 0,
-				'pia_avatar_height'	=> 0,
-			];
-
-			$sql = 'UPDATE ' . USERS_TABLE . '
-				SET ' . $this->db->sql_build_array('UPDATE', $delete_backup_row) . '
-				WHERE user_id = ' . (int) $row['user_id'];
-			$this->db->sql_query($sql);
-		}
-		$this->db->sql_freeresult($result);
-
-		if ($i < $limit)
-		{
-			return;
-		}
-
-		return $start + $limit;
-	}
-
-	/**
-	 * Delete all user avatars
-	 *
-	 * @return void
-	 */
-	public function delete_phpbb_user_avatars($start = 0)
+	public function delete_pia_user_avatars($start = 0)
 	{
 		$limit = 500;
 
 		$sql = 'SELECT user_id, user_type
 		FROM ' . USERS_TABLE . '
 		WHERE user_id <> ' . ANONYMOUS . '
-			AND (user_type <> ' . USER_IGNORE . ')
-		GROUP BY user_id';
+			AND (user_type <> ' . USER_IGNORE . ')';
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
 
 		$i = 0;
@@ -219,7 +106,9 @@ class pia
 
 			$sql = 'UPDATE ' . USERS_TABLE . '
 				SET ' . $this->db->sql_build_array('UPDATE', $delete_backup_row) . '
-				WHERE user_id = ' . (int) $row['user_id'];
+				WHERE user_id = ' . (int) $row['user_id'] . '
+					AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
+					AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char());
 			$this->db->sql_query($sql);
 		}
 		$this->db->sql_freeresult($result);
@@ -242,12 +131,11 @@ class pia
 		$group = 500;
 		$i = 0;
 
-		$sql = 'SELECT user_id, pia_avatar_ucp
+		$sql = 'SELECT user_id, user_avatar, user_avatar_type, pia_avatar_ucp
 		FROM ' . USERS_TABLE . '
 		WHERE pia_avatar_ucp = 0
 			AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
-			AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char()) . '
-		GROUP BY user_id';
+			AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char());
 		$result = $this->db->sql_query_limit($sql, $group, $block);
 
 		while ($row = $this->db->sql_fetchrow($result))
@@ -275,48 +163,6 @@ class pia
 	}
 
 	/**
-	 * Restore all user avatars from the PIA table if any
-	 *
-	 * @return void
-	 */
-	public function pia_table_restore_user_avatars($block = 0)
-	{
-		$group = 500;
-		$i = 0;
-
-		$sql = 'SELECT pia_user_id, pia_user_avatar, pia_user_avatar_type, pia_user_avatar_width, pia_user_avatar_height
-		FROM ' . $this->pia_table . '
-		GROUP BY pia_user_id';
-		$result = $this->db->sql_query_limit($sql, $group, $block);
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$i++;
-
-			$restore_row = array(
-				'user_id'			=> (int) $row['pia_user_id'],
-				'user_avatar'		=> $row['pia_user_avatar'],
-				'user_avatar_type'	=> $row['user_avatar_type'],
-				'user_avatar_width'	=> (int) $row['pia_avatar_width'],
-				'user_avatar_height'	=> (int) $row['pia_avatar_height']
-			);
-
-			$sql = 'UPDATE ' . USERS_TABLE . '
-			SET ' . $this->db->sql_build_array('UPDATE', $restore_row) . '
-			WHERE user_id = ' . (int) $row['pia_user_id'];
-			$this->db->sql_query($sql);
-		}
-		$this->db->sql_freeresult($result);
-
-		if ($i < $group)
-		{
-			return;
-		}
-
-		return $block + $group;
-	}
-
-	/**
 	 * Restore all user avatars
 	 *
 	 * @return void
@@ -326,9 +172,8 @@ class pia
 		$group = 500;
 		$i = 0;
 
-		$sql = 'SELECT user_id, pia_user_avatar, pia_avatar_type, pia_avatar_width, pia_avatar_height
-		FROM ' . USERS_TABLE . '
-		GROUP BY user_id';
+		$sql = 'SELECT pia_user_id, pia_user_avatar, pia_user_avatar_type, pia_user_avatar_width, pia_user_avatar_height
+		FROM ' . $this->pia_table;
 		$result = $this->db->sql_query_limit($sql, $group, $block);
 
 		while ($row = $this->db->sql_fetchrow($result))
@@ -337,13 +182,13 @@ class pia
 
 			$restore_pia_rows = array(
 				'user_avatar'			=> $row['pia_user_avatar'],
-				'user_avatar_type'		=> $row['pia_avatar_type'],
-				'user_avatar_width'		=> (int) $row['pia_avatar_width'],
-				'user_avatar_height'	=> (int) $row['pia_avatar_height']
+				'user_avatar_type'		=> $row['pia_user_avatar_type'],
+				'user_avatar_width'		=> (int) $row['pia_user_avatar_width'],
+				'user_avatar_height'	=> (int) $row['pia_user_avatar_height']
 			);
 
 			$sql = 'UPDATE ' . USERS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $restore_pia_rows) . '
-			WHERE user_id = ' . (int) $row['user_id'] . '
+			WHERE user_id = ' . (int) $row['pia_user_id'] . '
 				AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
 				AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char());
 			$this->db->sql_query($sql);
@@ -405,7 +250,7 @@ class pia
 		}
 		$rounded = ($rou_equal . $rou_val);
 
-		//Boolean Decide if the API should uppercase the name/initials. Default: true
+		// Boolean Decide if the API should uppercase the name/initials. Default: true
 		$upp_cas_equal = pia_cos::PIA_UPPERCASE;
 		if ((bool) $this->config['threedi_pia_upp_cas_val'])
 		{
@@ -418,6 +263,29 @@ class pia
 		$uppercase = ($upp_cas_equal . $upp_cas_val);
 
 		return [$size, $background, $color, $length, $font_size, $rounded, $uppercase];
+	}
+
+	/**
+	 * This function replaces some chars from a string (username here)
+	 *
+	 * @param	string	$text	String
+	 * @return	string			Amended version of the input string
+	 */
+	function pia_amend_username($name)
+	{
+		$name = str_replace(' ', '+', $name);
+		$name = str_replace('_', '+', $name);
+		$name = str_replace('@', '+', $name);
+		$name = str_replace('.', '+', $name);
+		$name = str_replace(',', '+', $name);
+		$name = str_replace('[', '', $name);
+		$name = str_replace(']', '', $name);
+		$name = str_replace('{', '', $name);
+		$name = str_replace('}', '', $name);
+		$name = str_replace('(', '', $name);
+		$name = str_replace(')', '', $name);
+
+		return $name;
 	}
 
 	/**
@@ -438,30 +306,14 @@ class pia
 			AND (user_type <> ' . USER_IGNORE . ')
 			AND user_avatar ' . $this->db->sql_like_expression('') . '
 			AND user_avatar_type ' . $this->db->sql_like_expression('') . '
-			AND pia_avatar_ucp = 1
-		GROUP BY user_id';
+			AND pia_avatar_ucp = 1';
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
-
-//WHERE user_type <> ' . USER_IGNORE . "
-//				AND user_email <> ''";
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$i++;
 
-			$name = str_replace(' ', '+', $row['username']);
-			$name = str_replace('_', '+', $row['username']);
-			$name = str_replace('@', '+', $row['username']);
-			$name = str_replace('.', '+', $row['username']);
-			$name = str_replace(',', '+', $row['username']);
-			$name = str_replace('[', '', $row['username']);
-			$name = str_replace(']', '', $row['username']);
-			$name = str_replace('{', '', $row['username']);
-			$name = str_replace('}', '', $row['username']);
-			$name = str_replace('(', '', $row['username']);
-			$name = str_replace(')', '', $row['username']);
-			/* that's for QI testers */
-			$name = str_replace('tester_', 't+', $row['username']);
+			$name = $this->pia_amend_username($row['username']);
 
 			$uiav_url = (string) $this->config['threedi_pia_uiav'];
 			$uiav = (string) $uiav_url . "{$name}{$size}{$background}{$color}{$length}{$font_size}{$rounded}{$uppercase}";
@@ -487,5 +339,4 @@ class pia
 
 		return $start + $limit;
 	}
-
 }

@@ -22,6 +22,6 @@ $lang = array_merge($lang, array(
 	'UCP_PIA'				=> 'Settings',
 	'UCP_PIA_TITLE'			=> 'phpBB Initial Avatars',
 	'UCP_PIA_USER'			=> 'Use default avatar',
-	'UCP_PIA_USER_EXPLAIN'	=> 'Remember it goes away automatically once you get an Avatar, and this decision apply only if the Admin did not set the "always replace" option in ACP.',
+	'UCP_PIA_USER_EXPLAIN'	=> 'Remember it goes away automatically once you get an Avatar.',
 	'UCP_PIA_SAVED'			=> 'Settings have been saved successfully!',
 ));

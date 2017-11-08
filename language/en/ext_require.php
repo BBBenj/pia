@@ -19,5 +19,5 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ERROR_MSG_321_MISTMATCH'	=>	'Minimum equal or greater than 3.2.1',
+	'ERROR_MSG_321_MISTMATCH'	=>	'Minimum equal or greater than 3.2.1 but less than 3.3.0@dev',
 ));
