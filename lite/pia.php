@@ -318,4 +318,57 @@ class pia
 
 		return $start + $limit;
 	}
+
+	/**
+	 * Executes the main thang from ACP
+	 *
+	 * @return array
+	 */
+	public function pia_acp_main_reset($start = 0)
+	{
+		list($size, $background, $color, $length, $font_size, $rounded, $uppercase) = $this->ui_configs();
+
+		$limit = 500;
+		$i = 0;
+
+		$sql = 'SELECT username, user_id, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, pia_avatar_ucp
+		FROM ' . USERS_TABLE . '
+		WHERE user_id <> ' . ANONYMOUS . '
+			AND (user_type <> ' . USER_IGNORE . ')
+			AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
+			AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char()) . '
+			AND pia_avatar_ucp = 1';
+		$result = $this->db->sql_query_limit($sql, $limit, $start);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$i++;
+
+			$name = $this->pia_amend_username($row['username']);
+
+			$uiav_url = (string) $this->config['threedi_pia_uiav'];
+			$uiav = (string) $uiav_url . "{$name}{$size}{$background}{$color}{$length}{$font_size}{$rounded}{$uppercase}";
+
+			/* Stores the PIA avatar only where the Users doesn't already have one */
+			$default_row = array(
+				'user_avatar'		=> (string) $uiav,
+				'user_avatar_type'	=> 'avatar.driver.remote',
+			);
+
+			$sql1 = 'UPDATE ' . USERS_TABLE . '
+				SET ' . $this->db->sql_build_array('UPDATE', $default_row) . '
+				WHERE user_id = ' . (int) $row['user_id'];
+			$this->db->sql_query($sql1);
+		}
+
+		$this->db->sql_freeresult($result);
+
+		if ($i < $limit)
+		{
+			return;
+		}
+
+		return $start + $limit;
+	}
+
 }

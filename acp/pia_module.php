@@ -61,10 +61,10 @@ class pia_module
 				$config->set('threedi_pia_rou_val', $request->variable('threedi_pia_rou_val', (bool) $config['threedi_pia_rou_val']));
 				$config->set('threedi_pia_upp_cas_val', $request->variable('threedi_pia_upp_cas_val', (bool) $config['threedi_pia_upp_cas_val']));
 
-				/* Resets avatars for the changes to make effect - are cached server-side */
+				/* Resets avatars for the changes to make effect - Are cached server-side */
 				if ( $pia_lite->is_authed() && $config['threedi_pia_default_avatar'] && $config['allow_avatar'] && $config['allow_avatar_remote'])
 				{
-					$pia_lite->pia_main();
+					$pia_lite->pia_acp_main_reset();
 				}
 
 				/* Log the action and return */
