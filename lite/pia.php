@@ -321,6 +321,7 @@ class pia
 
 	/**
 	 * Executes the main thang from ACP
+	 * Refresh the PIA avatar only where the Users does already have one
 	 *
 	 * @return array
 	 */
@@ -349,7 +350,6 @@ class pia
 			$uiav_url = (string) $this->config['threedi_pia_uiav'];
 			$uiav = (string) $uiav_url . "{$name}{$size}{$background}{$color}{$length}{$font_size}{$rounded}{$uppercase}";
 
-			/* Stores the PIA avatar only where the Users doesn't already have one */
 			$default_row = array(
 				'user_avatar'		=> (string) $uiav,
 				'user_avatar_type'	=> 'avatar.driver.remote',
