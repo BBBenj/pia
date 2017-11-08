@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "Give your phpBB users a unique default avatar like Google Mail, Wordpress etc.",
 	"homepage": "https://github.com/3D-I/pia",
-	"version": "1.0.1-beta",
+	"version": "1.0.2-beta",
 	"license": "GPL-2.0",
 	"authors": [
 		{
