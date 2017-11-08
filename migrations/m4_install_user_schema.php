@@ -10,9 +10,6 @@
 
 namespace threedi\pia\migrations;
 
-/*
- * Creates the PIA's table and backups the User avatars's lot
- */
 class m4_install_user_schema extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()

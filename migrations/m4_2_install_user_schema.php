@@ -57,6 +57,7 @@ class m4_2_install_user_schema extends \phpbb\db\migration\migration
 		$this->db->sql_query($sql);
 	}
 
+/*
 	public function revert_schema()
 	{
 		return [
@@ -65,4 +66,5 @@ class m4_2_install_user_schema extends \phpbb\db\migration\migration
 			],
 		];
 	}
+*/
 }
