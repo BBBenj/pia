@@ -68,7 +68,7 @@ class pia
 		$sql = 'SELECT user_id, user_type, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, pia_avatar_ucp
 		FROM ' . USERS_TABLE . '
 		WHERE user_id <> ' . ANONYMOUS . '
-			AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
+			AND user_avatar ' . $this->db->sql_like_expression($this->db->get_any_char() . 'ui-avatars' . $this->db->get_any_char()) . '
 			AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char()) . '
 			AND (user_type <> ' . USER_IGNORE . ')';
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
@@ -113,7 +113,7 @@ class pia
 		$sql = 'SELECT user_id, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, pia_avatar_ucp
 		FROM ' . USERS_TABLE . '
 		WHERE pia_avatar_ucp = 0
-			AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
+			AND user_avatar ' . $this->db->sql_like_expression($this->db->get_any_char() . 'ui-avatars' . $this->db->get_any_char()) . '
 			AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char());
 		$result = $this->db->sql_query_limit($sql, $group, $block);
 
@@ -168,7 +168,7 @@ class pia
 
 			$sql = 'UPDATE ' . USERS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $restore_pia_rows) . '
 			WHERE user_id = ' . (int) $row['pia_user_id'] . '
-				AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
+				AND user_avatar ' . $this->db->sql_like_expression($this->db->get_any_char() . 'ui-avatars' . $this->db->get_any_char()) . '
 				AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char());
 			$this->db->sql_query($sql);
 		}
@@ -336,7 +336,7 @@ class pia
 		FROM ' . USERS_TABLE . '
 		WHERE user_id <> ' . ANONYMOUS . '
 			AND (user_type <> ' . USER_IGNORE . ')
-			AND user_avatar ' . $this->db->sql_like_expression('https://ui-avatars' . $this->db->get_any_char()) . '
+			AND user_avatar ' . $this->db->sql_like_expression($this->db->get_any_char() . 'ui-avatars' . $this->db->get_any_char()) . '
 			AND user_avatar_type ' . $this->db->sql_like_expression('avatar.driver.remote' . $this->db->get_any_char()) . '
 			AND pia_avatar_ucp = 1';
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
