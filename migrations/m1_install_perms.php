@@ -29,4 +29,3 @@ class m1_install_perms extends \phpbb\db\migration\migration
 		];
 	}
 }
-
