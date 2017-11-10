@@ -284,7 +284,6 @@ class pia
 		WHERE user_id <> ' . ANONYMOUS . '
 			AND (user_type <> ' . USER_IGNORE . ')
 			AND user_avatar ' . $this->db->sql_like_expression('') . '
-			AND user_avatar_type ' . $this->db->sql_like_expression('') . '
 			AND pia_avatar_ucp = 1';
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
 
